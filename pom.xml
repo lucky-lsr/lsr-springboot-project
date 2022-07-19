@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>cn.lsr.boot</groupId>
+    <artifactId>lsr-springboot-project</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+
+    <modules>
+        <module>lsr-springboot-bom</module>
+        <module>lsr-springboot-demo</module>
+        <module>lsr-springboot-boot</module>
+    </modules>
+
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>cn.lsr.boot.bom</groupId>
+                <artifactId>lsr-springboot-bom</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.lsr.boot.demo</groupId>
+                <artifactId>lsr-springboot-demo</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.lsr.boot</groupId>
+                <artifactId>lsr-springboot-boot</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <!-- 后续需要一个顶级parent 区分子parent 的依赖管理 -->
+            <dependency>
+                <groupId>cn.lsr.boot.actuator</groupId>
+                <artifactId>lsr-springboot-actuator</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.lsr.boot.config</groupId>
+                <artifactId>lsr-springboot-config</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.lsr.boot.core</groupId>
+                <artifactId>lsr-springboot-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.lsr.boot.param</groupId>
+                <artifactId>lsr-springboot-param</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.lsr.boot.starter</groupId>
+                <artifactId>lsr-springboot-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.lsr.boot.config.api</groupId>
+                <artifactId>lsr-springboot-config-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.lsr.boot.config.core</groupId>
+                <artifactId>lsr-springboot-config-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.lsr.boot.config</groupId>
+                <artifactId>lsr-springboot-config-autoconfigure</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.lsr.boot.config.apollo</groupId>
+                <artifactId>lsr-springboot-config-apollo-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>

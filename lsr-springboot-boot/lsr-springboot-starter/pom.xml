@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>lsr-springboot-boot</artifactId>
+        <groupId>cn.lsr.boot</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>cn.lsr.boot.starter</groupId>
+    <artifactId>lsr-springboot-starter</artifactId>
+
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>cn.lsr.boot.actuator</groupId>
+            <artifactId>lsr-springboot-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.lsr.boot.config</groupId>
+            <artifactId>lsr-springboot-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.lsr.boot.core</groupId>
+            <artifactId>lsr-springboot-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.lsr.boot.param</groupId>
+            <artifactId>lsr-springboot-param</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

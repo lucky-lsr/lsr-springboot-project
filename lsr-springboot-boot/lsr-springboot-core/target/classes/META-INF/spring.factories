@@ -1,0 +1,2 @@
+org.springframework.boot.SpringApplicationRunListener=\
+cn.lsr.boot.core.listener.ApplicationGlobalListener
