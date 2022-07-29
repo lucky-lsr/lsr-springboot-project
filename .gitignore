@@ -10,7 +10,7 @@ package-lock.json
 ./idea
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
-
+*.lst
 # IntelliJ
 /out/
 /target/

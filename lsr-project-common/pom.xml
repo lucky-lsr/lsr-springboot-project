@@ -9,8 +9,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>cn.lsr.boot.demo</groupId>
-    <artifactId>lsr-springboot-demo</artifactId>
+    <groupId>cn.lsr.common</groupId>
+    <artifactId>lsr-project-common</artifactId>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -30,22 +30,13 @@
         </dependencies>
     </dependencyManagement>
 
+
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-tx -->
         <dependency>
-            <groupId>cn.lsr.boot.starter</groupId>
-            <artifactId>lsr-springboot-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-log4j2</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.lmax</groupId>
-            <artifactId>disruptor</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.lsr.lock</groupId>
-            <artifactId>lsr-distributed-lock-db-starter</artifactId>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
         </dependency>
     </dependencies>
+
 </project>
