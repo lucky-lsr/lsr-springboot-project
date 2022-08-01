@@ -2,6 +2,7 @@ package cn.lsr.lock.core.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @Description: 互斥锁对象
@@ -11,22 +12,28 @@ import com.baomidou.mybatisplus.extension.activerecord.Model;
 @TableName("sys_mutex")
 public class Mutex extends Model<Mutex> {
 
-    private String name;
-    private String group;
+    private String mutexName;
+    private String mutexGroup;
 
-    public String getName() {
-        return name;
+
+    public Mutex(@Param("mutex_name") String mutexName, @Param("mutex_group")String mutexGroup) {
+        this.mutexName = mutexName;
+        this.mutexGroup = mutexGroup;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getMutexName() {
+        return mutexName;
     }
 
-    public String getGroup() {
-        return group;
+    public void setMutexName(String mutexName) {
+        this.mutexName = mutexName;
     }
 
-    public void setGroup(String group) {
-        this.group = group;
+    public String getMutexGroup() {
+        return mutexGroup;
+    }
+
+    public void setMutexGroup(String mutexGroup) {
+        this.mutexGroup = mutexGroup;
     }
 }

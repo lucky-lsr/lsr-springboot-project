@@ -5,6 +5,7 @@ package cn.lsr.common;
  * @Author: lsr
  * @Date 2022年07月29日 11:05
  */
+@FunctionalInterface
 public interface RunnableWithReturn<R> {
-    public R execute();
+     R execute();
 }

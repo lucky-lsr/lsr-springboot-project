@@ -9,8 +9,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @Author: lsr
  * @Date 2022年06月16日 15:20
  */
-@SpringBootApplication(scanBasePackages = "cn.lsr")
-@MapperScan("cn.lsr")
+@SpringBootApplication(scanBasePackages = "cn.lsr.*")
+@MapperScan(basePackages = "cn.lsr.lock.core.mapper")
 public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class,args);
