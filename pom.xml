@@ -16,6 +16,7 @@
         <module>lsr-protocol-parent</module>
         <module>lsr-project-common</module>
         <module>lsr-distributed-lock</module>
+        <module>lsr-server-discovery</module>
     </modules>
 
     <properties>
@@ -127,6 +128,27 @@
             <dependency>
                 <groupId>cn.lsr.lock</groupId>
                 <artifactId>lsr-distributed-lock-db-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <!--心跳服务 -->
+            <dependency>
+                <groupId>cn.lsr.discovery</groupId>
+                <artifactId>lsr-server-discovery-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.lsr.discovery</groupId>
+                <artifactId>lsr-server-discovery-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.lsr.discovery</groupId>
+                <artifactId>lsr-server-discovery-autoconfigure</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.lsr.discovery</groupId>
+                <artifactId>lsr-server-discovery-db-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

@@ -2,9 +2,9 @@ package cn.lsr.lock.core.mapper;
 
 import cn.lsr.lock.core.entity.Mutex;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
-import java.util.List;
 
 /**
  * @Description: 分布式锁mapper
@@ -12,6 +12,10 @@ import java.util.List;
  * @Date 2022年07月29日 14:45
  */
 public interface MutexMapper extends BaseMapper<Mutex> {
-    @Select("select * from sys_mutex where name = #{name} and group = #{group} for update ")
-    List<Mutex> selectWithLock(String name, String group);
+
+    @Select("select * from sys_mutex where mutex_name = #{mutex_name} and mutex_group = #{mutex_group} for update ")
+    Mutex selectWithLock(@Param("mutex_name") String name, @Param("mutex_group") String group);
+
+    @Select("select * from sys_mutex where mutex_name = #{mutex_name} and mutex_group = #{mutex_group}")
+    Mutex selectOneByMutexNameAndMutexGroup(@Param("mutex_name") String name, @Param("mutex_group") String group);
 }

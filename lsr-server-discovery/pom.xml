@@ -9,14 +9,14 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>cn.lsr.lock</groupId>
-    <artifactId>lsr-distributed-lock</artifactId>
+    <groupId>cn.lsr.discovery</groupId>
+    <artifactId>lsr-server-discovery</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>lsr-distributed-lock-api</module>
-        <module>lsr-distributed-lock-core</module>
-        <module>lsr-distributed-lock-autoconfigure</module>
-        <module>lsr-distributed-lock-db-starter</module>
+        <module>lsr-server-discovery-api</module>
+        <module>lsr-server-discovery-core</module>
+        <module>lsr-server-discovery-autoconfigure</module>
+        <module>lsr-server-discovery-db-starter</module>
     </modules>
 
     <properties>
@@ -35,32 +35,25 @@
                 <type>pom</type>
             </dependency>
             <dependency>
-                <groupId>cn.lsr.lock</groupId>
-                <artifactId>lsr-distributed-lock-api</artifactId>
+                <groupId>cn.lsr.discovery</groupId>
+                <artifactId>lsr-server-discovery-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>cn.lsr.lock</groupId>
-                <artifactId>lsr-distributed-lock-core</artifactId>
+                <groupId>cn.lsr.discovery</groupId>
+                <artifactId>lsr-server-discovery-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>cn.lsr.lock</groupId>
-                <artifactId>lsr-distributed-lock-autoconfigure</artifactId>
+                <groupId>cn.lsr.discovery</groupId>
+                <artifactId>lsr-server-discovery-autoconfigure</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>cn.lsr.lock</groupId>
-                <artifactId>lsr-distributed-lock-db-starter</artifactId>
+                <groupId>cn.lsr.discovery</groupId>
+                <artifactId>lsr-server-discovery-db-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-        </dependency>
-    </dependencies>
-
 </project>

@@ -25,4 +25,10 @@ public class DaoUtil {
         return run.execute();
     }
 
+    public static void main(String[] args) {
+        daoUtil.executeInNewTransaction(()->{
+            System.out.println("test");
+            return "";
+        });
+    }
 }
