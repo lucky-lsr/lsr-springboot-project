@@ -3,16 +3,15 @@ package cn.lsr.discovery.api;
 /**
  * @Description: 服务实例信息
  * @Author: lsr
- * @param <T> 心跳对象
  * @Date 2022年08月01日 19:35
  */
 public class ServerInstance {
     /**
-     * Service名称
+     * Service名称 取application name
      */
     private String name;
     /**
-     * NamedService ID, 格式为hostname#user#vmid
+     * NamedService ID,
      */
     private String id;
     /**

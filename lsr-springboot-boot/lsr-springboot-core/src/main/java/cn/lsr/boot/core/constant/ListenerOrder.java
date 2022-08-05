@@ -1,7 +1,7 @@
 package cn.lsr.boot.core.constant;
 
 /**
- * @Description: 扩展listener order
+ * @Description: 扩展listener order order 越小执行越早
  * @Author: lsr
  * @Date 2022年06月24日 11:40
  */

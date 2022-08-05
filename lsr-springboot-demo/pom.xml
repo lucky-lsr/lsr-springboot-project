@@ -47,5 +47,9 @@
             <groupId>cn.lsr.lock</groupId>
             <artifactId>lsr-distributed-lock-db-starter</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cn.lsr.discovery</groupId>
+            <artifactId>lsr-server-discovery-db-starter</artifactId>
+        </dependency>
     </dependencies>
 </project>
