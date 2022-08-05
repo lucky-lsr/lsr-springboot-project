@@ -49,18 +49,4 @@ public class TestDBLock {
         }
         executorService.shutdown();
     }
-    @GetMapping("/get1")
-    public void getLock1(String name ,String group){
-        Mutex mutex = new Mutex(name,group);
-        mutex.insert();
-        //mutexMapper.selectWithLock(name,group);
-        System.out.println("test ");
-    }
-    @GetMapping("/get2")
-    public void getLock2(String name ,String group){
-        Mutex mutex = new Mutex(name,group);
-        mutexMapper.insert(mutex);
-        //mutexMapper.selectWithLock(name,group);
-        System.out.println("test ");
-    }
 }
