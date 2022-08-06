@@ -2,6 +2,7 @@ package cn.lsr.lock.config;
 
 import cn.lsr.lock.api.DistributeMutex;
 import cn.lsr.lock.core.DBDistributeMutex;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +15,7 @@ import org.springframework.core.annotation.Order;
  */
 @Configuration
 @ConditionalOnProperty(prefix = "lsr.lock",name = "enabled",matchIfMissing = false,havingValue = "true")
+@MapperScan(basePackages = "cn.lsr.lock.core.mapper")
 @Order(30)
 public class LockConfigManagerConfigure {
 

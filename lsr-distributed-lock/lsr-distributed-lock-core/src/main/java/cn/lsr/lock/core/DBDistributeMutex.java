@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 
-
 /**
  * @Description: DB方式实现分布式锁
  * @Author: lsr
@@ -32,19 +31,20 @@ public class DBDistributeMutex<T> implements DistributeMutex<T> {
      */
     private static ThreadLocal<TransactionStatus> status = new ThreadLocal<>();
 
+    private String systemId = System.getProperty("system.id");
     private String name;
     private String group;
 
     @Override
-    public void init(String name,String group) {
+    public void init(String name, String group) {
         this.name = name;
         this.group = group;
-        Mutex mutex = mutexMapper.selectOneByMutexNameAndMutexGroup(name, group);
-        if (null == mutex){
-            mutex = new Mutex(name,group);
+        Mutex mutex = mutexMapper.selectOneByMutexNameAndMutexGroup(systemId, name, group);
+        if (null == mutex) {
+            mutex = new Mutex(systemId, name, group);
             try {
                 mutexMapper.insert(mutex);
-            }catch (Exception e){
+            } catch (Exception e) {
                 //TODO 可能有其他线程已经插入
             }
         }
@@ -52,7 +52,7 @@ public class DBDistributeMutex<T> implements DistributeMutex<T> {
 
     @Override
     public void acquire() throws InterruptedException {
-        if (Thread.interrupted()){
+        if (Thread.interrupted()) {
             throw new InterruptedException();
         }
         int count = 0;
@@ -62,32 +62,32 @@ public class DBDistributeMutex<T> implements DistributeMutex<T> {
         do {
             count++;
             try {
-                mutexMapper.selectWithLock(this.name,this.group);
-                System.out.println(Thread.currentThread().getName()+"获取分布式成功。。"+status.get().toString());
+                mutexMapper.selectWithLock(systemId, this.name, this.group);
+                System.out.println(Thread.currentThread().getName() + "获取分布式成功。。" + status.get().toString());
                 return;
-            }catch (Exception e){
-                System.out.println(Thread.currentThread().getName()+"获取分布式锁失败："+e);
+            } catch (Exception e) {
+                System.out.println(Thread.currentThread().getName() + "获取分布式锁失败：" + e);
                 //TODO 获取分布式锁失败，重试
-                if (initCause == null){
+                if (initCause == null) {
                     initCause = e;
                 }
             }
             // 等待1秒再重试
             try {
                 Thread.sleep(1000L);
-                System.out.println(Thread.currentThread().getName()+"获取分布式锁失败，进行重试，重试次数为："+count);
+                System.out.println(Thread.currentThread().getName() + "获取分布式锁失败，进行重试，重试次数为：" + count);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 break;
             }
-        }while (count<4);
-        throw new RuntimeException(Thread.currentThread().getName()+"获取分布式锁失败，已达到最大重试次数："+count);
+        } while (count < 4);
+        throw new RuntimeException(Thread.currentThread().getName() + "获取分布式锁失败，已达到最大重试次数：" + count);
     }
 
     @Override
     public void release() {
         platformTransactionManager.commit(status.get());
-        System.out.println(Thread.currentThread().getName()+"释放分布式锁"+status.get().toString());
+        System.out.println(Thread.currentThread().getName() + "释放分布式锁" + status.get().toString());
         status.remove();
     }
 
@@ -97,13 +97,13 @@ public class DBDistributeMutex<T> implements DistributeMutex<T> {
     }
 
     @Override
-    public T transactionCodeBlock(RunnableWithReturn<T> runnableWithReturn){
+    public T transactionCodeBlock(RunnableWithReturn<T> runnableWithReturn) {
         try {
             this.acquire();
             return runnableWithReturn.execute();
-        }catch (Exception e){
-            System.out.println("执行分布式锁方法块异常："+e);
-        }finally {
+        } catch (Exception e) {
+            System.out.println("执行分布式锁方法块异常：" + e);
+        } finally {
             this.release();
         }
         return null;
