@@ -9,6 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.SpringApplicationRunListener;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.Ordered;
+import org.springframework.core.env.ConfigurableEnvironment;
 
 /**
  * @Description: 扩展全局listener
@@ -40,6 +41,11 @@ public class ApplicationGlobalListener implements SpringApplicationRunListener, 
         }catch ( Exception e){
             throw new RuntimeException("Service Startup Failure", e);
         }
+    }
+
+    @Override
+    public void environmentPrepared(ConfigurableBootstrapContext bootstrapContext,
+                                         ConfigurableEnvironment environment) {
     }
 
     /**
