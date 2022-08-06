@@ -13,9 +13,9 @@ import org.apache.ibatis.annotations.Select;
  */
 public interface MutexMapper extends BaseMapper<Mutex> {
 
-    @Select("select * from sys_mutex where mutex_name = #{mutex_name} and mutex_group = #{mutex_group} for update ")
-    Mutex selectWithLock(@Param("mutex_name") String name, @Param("mutex_group") String group);
+    @Select("select * from sys_mutex where system_id = #{system_id} and mutex_name = #{mutex_name} and mutex_group = #{mutex_group} for update ")
+    Mutex selectWithLock(@Param("system_id") String systemId,@Param("mutex_name") String name, @Param("mutex_group") String group);
 
-    @Select("select * from sys_mutex where mutex_name = #{mutex_name} and mutex_group = #{mutex_group}")
-    Mutex selectOneByMutexNameAndMutexGroup(@Param("mutex_name") String name, @Param("mutex_group") String group);
+    @Select("select * from sys_mutex where system_id = #{system_id} and mutex_name = #{mutex_name} and mutex_group = #{mutex_group}")
+    Mutex selectOneByMutexNameAndMutexGroup(@Param("system_id") String systemId,@Param("mutex_name") String name, @Param("mutex_group") String group);
 }
