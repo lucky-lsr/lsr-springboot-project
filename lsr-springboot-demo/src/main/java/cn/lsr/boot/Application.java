@@ -1,5 +1,6 @@
 package cn.lsr.boot;
 
+import cn.lsr.boot.core.param.SystemParamManagerConstant;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,6 +14,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @MapperScan(basePackages = "cn.lsr.lock.core.mapper")
 public class Application {
     public static void main(String[] args) {
+        System.setProperty(SystemParamManagerConstant.systemId,"test");
         SpringApplication.run(Application.class,args);
     }
 }

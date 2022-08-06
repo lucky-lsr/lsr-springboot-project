@@ -1,4 +1,4 @@
-package cn.lsr.boot.handler;
+package cn.lsr.boot.core.handler;
 
 import io.undertow.server.HandlerWrapper;
 import io.undertow.server.HttpHandler;

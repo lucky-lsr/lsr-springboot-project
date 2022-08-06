@@ -10,4 +10,6 @@ public class ListenerOrder {
      * 核心监听器
      */
     public static final int GLOBAL_LISTENER_ORDER = 1;
+
+    public static final int SYS_PARAM_CHECK_INIT = 1;
 }
