@@ -26,20 +26,8 @@
             <artifactId>lsr-springboot-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>cn.lsr.common</groupId>
-            <artifactId>lsr-project-common</artifactId>
-        </dependency>
-        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-extension</artifactId>
         </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>

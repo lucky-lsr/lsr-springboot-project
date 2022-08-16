@@ -10,4 +10,10 @@ public class SystemParamManagerUtils {
     public static String getSystemId() {
         return System.getProperty(SystemParamManagerConstant.systemId);
     }
+    public static String getApplicationName(){
+        return System.getProperty("spring.application.name");
+    }
+    public static String getLogHome(){
+        return System.getProperty(SystemParamManagerConstant.logHome);
+    }
 }

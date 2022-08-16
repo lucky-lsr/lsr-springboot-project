@@ -2,6 +2,7 @@ package cn.lsr.discovery.config;
 
 import cn.lsr.discovery.core.config.ServerDiscoveryConfig;
 import cn.lsr.discovery.core.listener.ServerDiscoveryListener;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +16,7 @@ import org.springframework.core.annotation.Order;
  */
 @Configuration
 @ConditionalOnProperty(prefix = "lsr.discovery", name = "enabled", matchIfMissing = false, havingValue = "true")
+@MapperScan("cn.lsr.discovery.core.mapper")
 @Order(31)
 public class DiscoveryConfigManager {
 

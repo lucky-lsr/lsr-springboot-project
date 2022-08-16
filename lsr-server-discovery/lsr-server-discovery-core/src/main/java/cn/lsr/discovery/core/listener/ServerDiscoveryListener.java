@@ -2,6 +2,8 @@ package cn.lsr.discovery.core.listener;
 
 import cn.lsr.boot.core.event.ApplicationEventPublishType;
 import cn.lsr.boot.core.event.ApplicationGlobalEvent;
+import cn.lsr.boot.core.log.LogUtil;
+import org.apache.logging.log4j.Logger;
 import org.springframework.context.ApplicationListener;
 import org.springframework.core.Ordered;
 
@@ -12,11 +14,17 @@ import org.springframework.core.Ordered;
  */
 public class ServerDiscoveryListener implements ApplicationListener<ApplicationGlobalEvent>, Ordered {
 
+    private static final Logger log = LogUtil.getSysLog(ServerDiscoveryListener.class);
+
     @Override
     public void onApplicationEvent(ApplicationGlobalEvent status) {
         if (status.getSource() == ApplicationEventPublishType.STARTING) {
-            //TODO 心跳注册开始
-            System.out.println("discovery server start ...");
+            //TODO 08/06 心跳注册开始，心跳服务是否强制开启，不同的服务心跳 注册不同的监听器来实现
+            log.info("discovery server start ...");
+        } else if (status.getSource() == ApplicationEventPublishType.CLOSE) {
+            //TODO 关闭心跳线程，也可以使用注册钩子回调
+            //Runtime.getRuntime().addShutdownHook();
+            log.info("discovery server shuntdown ...");
         }
     }
 

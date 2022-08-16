@@ -32,6 +32,10 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-undertow</artifactId>
+        </dependency>
+        <dependency>
             <groupId>cn.lsr.boot.starter</groupId>
             <artifactId>lsr-springboot-starter</artifactId>
         </dependency>
