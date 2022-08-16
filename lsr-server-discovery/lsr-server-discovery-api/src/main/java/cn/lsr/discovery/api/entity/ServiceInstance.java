@@ -1,8 +1,7 @@
-package cn.lsr.discovery.core.entity;
+package cn.lsr.discovery.api.entity;
+
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -13,7 +12,7 @@ import java.util.Date;
  * @Date 2022年08月06日 20:01
  */
 @TableName("sys_service_instance")
-public class ServiceInstance extends Model<ServiceInstance> implements Serializable {
+public class ServiceInstance implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -45,13 +44,11 @@ public class ServiceInstance extends Model<ServiceInstance> implements Serializa
     /**
      * 初始更新时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
     /**
      * 最后更新时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date lastModifyTime;
 
     public String getSystemId() {

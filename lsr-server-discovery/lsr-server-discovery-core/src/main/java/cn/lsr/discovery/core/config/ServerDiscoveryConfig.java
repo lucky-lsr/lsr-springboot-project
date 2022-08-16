@@ -7,13 +7,43 @@ package cn.lsr.discovery.core.config;
  */
 public class ServerDiscoveryConfig {
 
-    private int intervals;
+    private int threadPollSize;
 
-    public int getIntervals() {
-        return intervals;
+    private int heartBeatInterval;
+
+    private int delay;
+
+    private int pollInterval;
+
+    public int getThreadPollSize() {
+        return threadPollSize;
     }
 
-    public void setIntervals(int intervals) {
-        this.intervals = intervals;
+    public void setThreadPollSize(int threadPollSize) {
+        this.threadPollSize = threadPollSize;
+    }
+
+    public int getHeartBeatInterval() {
+        return heartBeatInterval;
+    }
+
+    public void setHeartBeatInterval(int heartBeatInterval) {
+        this.heartBeatInterval = heartBeatInterval;
+    }
+
+    public int getDelay() {
+        return delay;
+    }
+
+    public void setDelay(int delay) {
+        this.delay = delay;
+    }
+
+    public int getPollInterval() {
+        return pollInterval;
+    }
+
+    public void setPollInterval(int pollInterval) {
+        this.pollInterval = pollInterval;
     }
 }

@@ -1,38 +1,226 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="debug" name="MyApp" packages="">
+<Configuration status="WARN" monitorInterval="10" packages="">
+
+    <Properties>
+        <!-- 大的日志级别开关，其他Logger请在下面配置中直接修改 -->
+        <property name="sys_log_level">debug</property><!-- 系统日志级别 -->
+        <!-- log4j自身的日志，如重新加载配置、log4j的异常等信息 -->
+        <property name="log4j_log_level">error</property>
+        <!-- 是否打印所在的行号(对性能影响比较大),开发测试环境 -->
+        <property name="enable_log_location">true</property>
+        <!-- 单次写入日志文件的块大(byte) -->
+        <property name="buffer_size">1048576</property>
+        <!-- 分钟,动态日志15分钟内没有使用则自动清理掉 -->
+        <property name="dynamic_log_live_time">15</property>
+
+        <property name="default_pattern">
+            <!-- [机器日期时间] [日志级别] [线程名] [类] 日志内容 -->
+            <![CDATA[ [%d{yyyy-MM-dd HH:mm:ss:SSS}] [%-5level] [%t] [%C:%L] %m%n ]]>
+        </property>
+    </Properties>
+
     <Appenders>
-        <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+        <Routing name="busi_route">
+            <Routes pattern="$${ctx:log_group}">
+                <Route key="boot" ref="boot_all"/>
+                <Route key="poll" ref="poll_thread"/>
+                <!-- 默认路由日志 -->
+                <Route ref="default"/>
+<!--                <Route ref="busi_console"/>-->
+            </Routes>
+        </Routing>
+
+        <Console name="busi_console">
+            <PatternLayout>
+                <Pattern>[%d] [%p] [%C:%L] [%t] [%m]%n</Pattern>
+            </PatternLayout>
         </Console>
-        <RollingFile name="RollingFile" fileName="logs/app.log"
-                     filePattern="logs/app-%d{yyyy-MM-dd HH}.log">
-            <PatternLayout>
-                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
-            </PatternLayout>
+
+
+        <!-- 启动日志 完整过程 （按天滚动） -->
+        <RollingFile name="boot_all"
+                     fileName="${sys:log.home}/${sys:system.id}/sys/boot/boot_all.log"
+                     filePattern="${sys:log.home}/${sys:system.id}/sys/boot/boot_all.log.%d{yyyy-MM-dd}-%i.gz"
+                     immediateFlush="false" bufferSize="${buffer_size}">
+            <PatternLayout pattern="${default_pattern}"/>
             <Policies>
-                <SizeBasedTriggeringPolicy size="500MB"/>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="60MB"/>
             </Policies>
+            <DefaultRolloverStrategy min="1" max="999"/>
         </RollingFile>
-        <RollingFile name="RollingFile2" fileName="logs/app2.log"
-                     filePattern="logs/app2-%d{yyyy-MM-dd HH}.log">
-            <PatternLayout>
-                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
-            </PatternLayout>
+
+        <!-- 平台默认日志 （按天滚动） -->
+        <RollingFile name="default"
+                     fileName="${sys:log.home}/${sys:system.id}/sys/default/default.log"
+                     filePattern="${sys:log.home}/${sys:system.id}/sys/default/default.log.%d{yyyy-MM-dd}-%i.gz"
+                     immediateFlush="false" bufferSize="${buffer_size}">
+            <PatternLayout pattern="${default_pattern}"/>
             <Policies>
-                <SizeBasedTriggeringPolicy size="500MB"/>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="60MB"/>
             </Policies>
+            <DefaultRolloverStrategy min="1" max="999"/>
+        </RollingFile>
+
+        <!-- 轮询线程日志 -->
+        <Routing name="poll_thread">
+            <Routes pattern="$${ctx:kind}">
+                <Route>
+                    <!--动态appender -->
+                    <RollingFile name="poll_thread_${ctx:kind}"
+                                 fileName="${sys:log.home}/${sys:system.id}/sys/poll/${ctx:kind}/${ctx:kind}.log"
+                                 filePattern="${sys:log.home}/${sys:system.id}/sys/poll/${ctx:kind}/${ctx:kind}.log.%d{yyyy-MM-dd}-%i.gz"
+                                 immediateFlush="false" bufferSize="${buffer_size}">
+                        <PatternLayout pattern="${default_pattern}"/>
+                        <Policies>
+                            <TimeBasedTriggeringPolicy/>
+                            <SizeBasedTriggeringPolicy size="60MB"/>
+                        </Policies>
+                        <DefaultRolloverStrategy min="1" max="999"/>
+                    </RollingFile>
+                </Route>
+            </Routes>
+            <!-- 15分钟内如果文件没有任何操作，则清理掉 -->
+            <IdlePurgePolicy timeToLive="${dynamic_log_live_time}" timeUnit="minutes"/>
+        </Routing>
+
+        <!-- 慢sql打印 -->
+        <RollingFile name="slowsql"
+                     fileName="${sys:log.home}/${sys:system.id}/sys/monitor/slowsql/slowsql.log"
+                     filePattern="${sys:log.home}/${sys:system.id}/sys/monitor/slowsql/slowsql.log.%d{yyyy-MM-dd}-%i.gz"
+                     immediateFlush="false" bufferSize="${buffer_size}">
+            <!--
+            @simple@
+            过滤特定SQL不打印 ,例如：kdgl_zhminx的相关SQL统一不打印
+            <RegexFilter regex=".*kdgl_zhminx.*" onMatch="DENY" onMismatch="NEUTRAL" />-->
+
+            <PatternLayout pattern="${onl_bat_pattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="60MB"/>
+            </Policies>
+            <DefaultRolloverStrategy min="1" max="999"/>
+        </RollingFile>
+
+
+        <RollingFile name="error"
+                     fileName="${sys:log.home}/${sys:system.id}/sys/error/error.log"
+                     filePattern="${sys:log.home}/${sys:system.id}/sys/error/error.log.%d{yyyy-MM-dd}-%i.gz"
+                     immediateFlush="false" bufferSize="${buffer_size}">
+            <PatternLayout pattern="${onl_bat_pattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="60MB"/>
+            </Policies>
+            <DefaultRolloverStrategy min="1" max="999"/>
         </RollingFile>
     </Appenders>
     <Loggers>
-        <AsyncLogger name="lsr.busi.log" level="trace" additivity="false">
-            <appender-ref ref="RollingFile"/>
+        <!-- 系统日志(只能控制到非专项日志) -->
+        <AsyncLogger name="sys" level="${sys_log_level}" additivity="false" includeLocation="${enable_log_location}">
+            <AppenderRef ref="busi_route"/>
         </AsyncLogger>
-        <AsyncLogger name="RollingFile2" level="trace" additivity="false">
-            <appender-ref ref="RollingFile2"/>
+        <!-- 系統-专项日志(基础平台) -->
+        <AsyncLogger name="sys.boot" level="info" additivity="false" includeLocation="${enable_log_location}">
+            <AppenderRef ref="busi_route"/>
         </AsyncLogger>
-        <Root level="debug">
-            <AppenderRef ref="Console"/>
-            <AppenderRef ref="RollingFile"/>
-        </Root>
+        <AsyncLogger name="sys.slowSql" level="info" additivity="false" includeLocation="${enable_log_location}">
+            <AppenderRef ref="slowsql"/>
+        </AsyncLogger>
+        <!-- for JDBC 最新架构 -->
+        <AsyncLogger name="jdbc.audit" level="FATAL" additivity="false" includeLocation="${enable_log_location}">
+            <AppenderRef ref="busi_route"/>
+
+        </AsyncLogger>
+        <AsyncLogger name="jdbc.resultset" level="FATAL" additivity="false" includeLocation="${enable_log_location}">
+            <AppenderRef ref="busi_route"/>
+
+        </AsyncLogger>
+        <!-- 如果要打印具体的SQL日志，这个必须为debug -->
+        <AsyncLogger name="jdbc.sqlonly" level="debug" additivity="false" includeLocation="${enable_log_location}">
+            <AppenderRef ref="busi_route"/>
+
+        </AsyncLogger>
+        <AsyncLogger name="jdbc.sqltiming" level="FATAL" additivity="false" includeLocation="${enable_log_location}">
+            <AppenderRef ref="busi_route"/>
+
+        </AsyncLogger>
+
+        <AsyncLogger name="jdbc.connection" level="FATAL" additivity="false" includeLocation="${enable_log_location}">
+            <AppenderRef ref="busi_route"/>
+
+        </AsyncLogger>
+        <AsyncLogger name="log4jdbc.debug" level="FATAL" additivity="false" includeLocation="${enable_log_location}">
+            <AppenderRef ref="busi_route"/>
+        </AsyncLogger>
+        <!-- for JDBC -->
+
+        <!-- for ibatis -->
+        <AsyncLogger name="org.apache.ibatis" level="error" additivity="false" includeLocation="${enable_log_location}">
+            <AppenderRef ref="busi_route"/>
+        </AsyncLogger>
+        <!-- for ibatis -->
+
+        <AsyncLogger name="org.apache.zookeeper" level="error" additivity="false"
+                     includeLocation="${enable_log_location}">
+            <AppenderRef ref="busi_route"/>
+        </AsyncLogger>
+
+
+        <!-- for 屏蔽第三方日志 -->
+
+        <!-- 如果log4j自身的异常，则打印到sys/error日志中 -->
+        <AsyncLogger name="org.apache.logging.log4j.status.StatusLogger" level="${log4j_log_level}" additivity="false"
+                     includeLocation="${enable_log_location}">
+            <AppenderRef ref="error"/>
+        </AsyncLogger>
+
+        <AsyncLogger name="org.springframework" level="ERROR" additivity="false"
+                     includeLocation="${enable_log_location}">
+            <AppenderRef ref="busi_route"/>
+        </AsyncLogger>
+        <AsyncLogger name="org.mortbay" level="ERROR" additivity="false" includeLocation="true">
+            <AppenderRef ref="busi_route"/>
+        </AsyncLogger>
+        <AsyncLogger name="freemarker" level="ERROR" additivity="false" includeLocation="${enable_log_location}">
+            <AppenderRef ref="busi_route"/>
+        </AsyncLogger>
+        <AsyncLogger name="com.solacesystems" level="FATAL" additivity="false" includeLocation="${enable_log_location}">
+            <AppenderRef ref="busi_route"/>
+        </AsyncLogger>
+        <AsyncLogger name="com.solacesystems.jcsmp.protocol.impl" level="FATAL" additivity="false"
+                     includeLocation="${enable_log_location}">
+            <AppenderRef ref="busi_route"/>
+        </AsyncLogger>
+        <AsyncLogger name="com.solacesystems.jcsmp.impl" level="FATAL" additivity="false"
+                     includeLocation="${enable_log_location}">
+            <AppenderRef ref="busi_route"/>
+        </AsyncLogger>
+        <AsyncLogger name="org.eclipse.jetty" level="INFO" additivity="false" includeLocation="${enable_log_location}">
+            <AppenderRef ref="busi_route"/>
+        </AsyncLogger>
+        <AsyncLogger name="org.quartz" level="ERROR" additivity="false" includeLocation="${enable_log_location}">
+            <AppenderRef ref="busi_route"/>
+        </AsyncLogger>
+        <AsyncLogger name="org.joda" level="ERROR" additivity="false" includeLocation="${enable_log_location}">
+            <AppenderRef ref="busi_route"/>
+        </AsyncLogger>
+        <AsyncLogger name="org.apache.commons" level="ERROR" additivity="false"
+                     includeLocation="${enable_log_location}">
+            <AppenderRef ref="busi_route"/>
+        </AsyncLogger>
+        <AsyncLogger name="net.sf.jasperreports" level="ERROR" additivity="false"
+                     includeLocation="${enable_log_location}">
+            <AppenderRef ref="busi_route"/>
+        </AsyncLogger>
+        <AsyncLogger name="org.apache.ibatis.logging.jdbc.BaseJdbcLogger" level="ERROR" additivity="false"
+                     includeLocation="${enable_log_location}">
+            <AppenderRef ref="busi_route"/>
+        </AsyncLogger>
+        <!-- for 屏蔽第三方日志 -->
+        <AsyncLogger name="monitor" level="error" additivity="false" includeLocation="${enable_log_location}">
+            <AppenderRef ref="busi_route"/>
+        </AsyncLogger>
     </Loggers>
 </Configuration>

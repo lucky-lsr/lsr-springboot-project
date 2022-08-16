@@ -1,10 +1,12 @@
 package cn.lsr.common.util;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Description: 日期工具类
@@ -21,6 +23,19 @@ public class DateUtil {
      */
     public static Date getYesterdayDate() {
         Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DAY_OF_MONTH, -1);
+        date = calendar.getTime();
+        return date;
+    }
+
+    /**
+     * 获取指定日期前一天的时间
+     *
+     * @return date类型
+     */
+    public static Date getYesterdayDate(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.add(Calendar.DAY_OF_MONTH, -1);
@@ -223,4 +238,79 @@ public class DateUtil {
         return month;
     }
 
+    /**
+     * 时间戳转换为 x天x时x秒x毫秒
+     * @param ms
+     * @return
+     */
+    public static String formatTime(Long ms) {
+
+        Integer ss = 1000;
+        Integer mi = ss * 60;
+        Integer hh = mi * 60;
+        Integer dd = hh * 24;
+
+        Long day = ms / dd;
+        Long hour = (ms - day * dd) / hh;
+        Long minute = (ms - day * dd - hour * hh) / mi;
+        Long second = (ms - day * dd - hour * hh - minute * mi) / ss;
+        Long milliSecond = ms - day * dd - hour * hh - minute * mi - second * ss;
+
+        StringBuffer sb = new StringBuffer();
+        if(day > 0) {
+
+            sb.append(day+"天");
+        }
+        if(hour > 0) {
+
+            sb.append(hour+"小时");
+        }
+        if(minute > 0) {
+
+            sb.append(minute+"分");
+        }
+        if(second > 0) {
+
+            sb.append(second+"秒");
+        }
+        if(milliSecond > 0) {
+
+            sb.append(milliSecond+"毫秒");
+        }
+        return sb.toString();
+    }
+
+    //根据日期取得星期几
+    public static String getDateOfTheWeekReturnString(Date date){
+        String[] weeks = {"星期日","星期一","星期二","星期三","星期四","星期五","星期六"};
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int week_index = cal.get(Calendar.DAY_OF_WEEK) - 1;
+        if(week_index<0){
+            week_index = 0;
+        }
+        return weeks[week_index];
+    }
+
+    public static int getDateOfTheWeekReturnInt(Date date){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int week = cal.get(Calendar.DAY_OF_WEEK) - 1;
+        return  week;
+    }
+
+    public static List<String> getNumDayDateBefore(Date date ,int days){
+        SimpleDateFormat df = new SimpleDateFormat("MM-dd");
+        List<String> dates = new ArrayList<>();
+        for (int i = 1; i < days+1; i++) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            calendar.add(Calendar.DAY_OF_MONTH, -i);
+            Date newDate = calendar.getTime();
+            String format = df.format(newDate);
+            dates.add(format);
+        }
+        Collections.reverse(dates);
+        return dates;
+    }
 }

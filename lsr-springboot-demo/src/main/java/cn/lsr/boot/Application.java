@@ -12,7 +12,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication(scanBasePackages = "cn.lsr.*")
 public class Application {
     public static void main(String[] args) {
-        System.setProperty(SystemParamManagerConstant.systemId, "test");
+        System.setProperty(SystemParamManagerConstant.systemId, "boot-demo");
+        System.setProperty(SystemParamManagerConstant.logHome, "logs");
+        System.setProperty("log4j.configurationFile", "log4j2.xml");
         SpringApplication.run(Application.class, args);
     }
 }

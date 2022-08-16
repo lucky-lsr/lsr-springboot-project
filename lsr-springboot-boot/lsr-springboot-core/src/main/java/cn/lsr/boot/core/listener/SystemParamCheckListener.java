@@ -6,6 +6,8 @@ import cn.lsr.boot.core.event.ApplicationGlobalEvent;
 import cn.lsr.boot.core.param.SystemParamManagerConstant;
 import cn.lsr.boot.core.param.SystemParamManagerUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.context.ApplicationListener;
 import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
@@ -17,12 +19,16 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class SystemParamCheckListener implements ApplicationListener<ApplicationGlobalEvent>, Ordered {
+    private Logger log = LogManager.getLogger(SystemParamCheckListener.class);
 
     @Override
     public void onApplicationEvent(ApplicationGlobalEvent status) {
         if (ApplicationEventPublishType.INIT == status.getSource()) {
             //参数校验
+            log.info("****************** param check start ******************");
             validateEmpty(SystemParamManagerConstant.systemId, SystemParamManagerUtils.getSystemId());
+            validateEmpty(SystemParamManagerConstant.logHome, SystemParamManagerUtils.getLogHome());
+            log.info("****************** param check end ******************");
         }
     }
 

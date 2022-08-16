@@ -10,4 +10,5 @@ public class SystemParamManagerConstant {
      * 系统id
      */
     public static final String systemId = "system.id";
+    public static final String logHome = "log.home";
 }

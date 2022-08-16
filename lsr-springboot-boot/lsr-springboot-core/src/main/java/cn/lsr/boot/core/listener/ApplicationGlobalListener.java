@@ -3,7 +3,11 @@ package cn.lsr.boot.core.listener;
 import cn.lsr.boot.core.constant.ListenerOrder;
 import cn.lsr.boot.core.event.ApplicationEventPublishType;
 import cn.lsr.boot.core.event.ApplicationGlobalEvent;
+import cn.lsr.boot.core.log.LogUtil;
+import cn.lsr.boot.core.log.log4jContextUtil;
 import cn.lsr.boot.core.util.VersionUtil;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.boot.ConfigurableBootstrapContext;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.SpringApplicationRunListener;
@@ -18,12 +22,15 @@ import org.springframework.core.env.ConfigurableEnvironment;
  * @Date 2022年06月24日 11:38
  */
 public class ApplicationGlobalListener implements SpringApplicationRunListener, Ordered {
+    private Logger log = LogUtil.getSysLog(ApplicationGlobalListener.class);
     /**
      * 构造函数不能省略
      * @param application
      * @param args
      */
     public ApplicationGlobalListener(SpringApplication application, String[] args){
+        //设置日志启动上下文
+        log4jContextUtil.setBootStart();
         //方便查看 将springboot spring jdk 版本信息输出到控制台
         VersionUtil.printlnSpringBootAndSpringVersion();
         //jdk版本+机器信息
@@ -37,7 +44,8 @@ public class ApplicationGlobalListener implements SpringApplicationRunListener, 
     @Override
     public void starting(ConfigurableBootstrapContext bootstrapContext) {
         try{
-            System.out.println("****************** starting ******************");
+
+            log.info("****************** starting ******************");
         }catch ( Exception e){
             throw new RuntimeException("Service Startup Failure", e);
         }
@@ -57,7 +65,8 @@ public class ApplicationGlobalListener implements SpringApplicationRunListener, 
      */
     @Override
     public void started(ConfigurableApplicationContext context) {
-        System.out.println("****************** started ******************");
+        System.out.println("system status started");
+        log.info("****************** started ******************");
         //TODO 此事件作为预留
         context.publishEvent(new ApplicationGlobalEvent(ApplicationEventPublishType.INIT));
         // 发布启动事件
@@ -71,7 +80,8 @@ public class ApplicationGlobalListener implements SpringApplicationRunListener, 
      */
     @Override
     public void running(ConfigurableApplicationContext context){
-        System.out.println("****************** running ******************");
+        log.info("****************** running ******************");
+        System.out.println("system status success");
     }
     /**
      * 当运行应用程序发生故障时调用。
@@ -82,7 +92,7 @@ public class ApplicationGlobalListener implements SpringApplicationRunListener, 
     public void failed(ConfigurableApplicationContext context, Throwable exception) {
         // 启动异常，发布关闭事件，清理释放资源
         context.publishEvent(new ApplicationGlobalEvent(ApplicationEventPublishType.CLOSE));
-        System.err.println("****************** failed ******************");
+        log.error("****************** failed ******************",exception);
     }
 
     @Override
