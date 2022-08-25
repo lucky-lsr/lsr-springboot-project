@@ -4,9 +4,8 @@ import cn.lsr.boot.core.constant.ListenerOrder;
 import cn.lsr.boot.core.event.ApplicationEventPublishType;
 import cn.lsr.boot.core.event.ApplicationGlobalEvent;
 import cn.lsr.boot.core.log.LogUtil;
-import cn.lsr.boot.core.log.log4jContextUtil;
+import cn.lsr.boot.core.log.LogContextUtil;
 import cn.lsr.boot.core.util.VersionUtil;
-import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.boot.ConfigurableBootstrapContext;
 import org.springframework.boot.SpringApplication;
@@ -30,7 +29,7 @@ public class ApplicationGlobalListener implements SpringApplicationRunListener, 
      */
     public ApplicationGlobalListener(SpringApplication application, String[] args){
         //设置日志启动上下文
-        log4jContextUtil.setBootStart();
+        LogContextUtil.setBootStart();
         //方便查看 将springboot spring jdk 版本信息输出到控制台
         VersionUtil.printlnSpringBootAndSpringVersion();
         //jdk版本+机器信息

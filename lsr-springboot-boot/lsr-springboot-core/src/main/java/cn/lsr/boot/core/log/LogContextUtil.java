@@ -7,7 +7,7 @@ import org.apache.logging.log4j.ThreadContext;
  * @Author: lsr
  * @Date 2022年08月15日 15:02
  */
-public class log4jContextUtil {
+public class LogContextUtil {
     /**
      * 轮询线程
      * @param threadName
@@ -21,5 +21,8 @@ public class log4jContextUtil {
     public static void setBootStart(){
         ThreadContext.put("log_group", "boot");
         ThreadContext.put("log_type", "system");
+    }
+    public static void clear(){
+        ThreadContext.clearAll();
     }
 }

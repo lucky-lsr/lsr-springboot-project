@@ -12,4 +12,7 @@ public class LogUtil {
     public static Logger getSysLog(Class<?> name){
         return LogManager.getLogger("sys.boot"+name);
     }
+    public static Logger getThreadPollLog(Class<?> name){
+        return LogManager.getLogger("sys.boot"+name);
+    }
 }

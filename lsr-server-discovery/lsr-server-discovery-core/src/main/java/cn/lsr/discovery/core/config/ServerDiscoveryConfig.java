@@ -11,9 +11,9 @@ public class ServerDiscoveryConfig {
 
     private int heartBeatInterval;
 
-    private int delay;
+    private long delay;
 
-    private int pollInterval;
+    private long pollInterval;
 
     public int getThreadPollSize() {
         return threadPollSize;
@@ -31,19 +31,19 @@ public class ServerDiscoveryConfig {
         this.heartBeatInterval = heartBeatInterval;
     }
 
-    public int getDelay() {
+    public long getDelay() {
         return delay;
     }
 
-    public void setDelay(int delay) {
+    public void setDelay(long delay) {
         this.delay = delay;
     }
 
-    public int getPollInterval() {
+    public long getPollInterval() {
         return pollInterval;
     }
 
-    public void setPollInterval(int pollInterval) {
+    public void setPollInterval(long pollInterval) {
         this.pollInterval = pollInterval;
     }
 }
