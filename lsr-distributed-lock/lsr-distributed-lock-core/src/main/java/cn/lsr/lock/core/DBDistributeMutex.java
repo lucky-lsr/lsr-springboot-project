@@ -1,9 +1,11 @@
 package cn.lsr.lock.core;
 
 import cn.lsr.common.RunnableWithReturn;
+import cn.lsr.common.log.LogUtil;
 import cn.lsr.lock.api.DistributeMutex;
 import cn.lsr.lock.core.entity.Mutex;
 import cn.lsr.lock.core.mapper.MutexMapper;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
@@ -18,6 +20,8 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
  */
 @EnableTransactionManagement
 public class DBDistributeMutex<T> implements DistributeMutex<T> {
+
+    private static final Logger log = LogUtil.getDiscoveryLog(DBDistributeMutex.class);
 
     @Autowired
     MutexMapper mutexMapper;
@@ -63,10 +67,10 @@ public class DBDistributeMutex<T> implements DistributeMutex<T> {
             count++;
             try {
                 mutexMapper.selectWithLock(systemId, this.name, this.group);
-                System.out.println(Thread.currentThread().getName() + "获取分布式成功。。" + status.get().toString());
+                log.debug(Thread.currentThread().getName() + "获取分布式成功。。" + status.get().toString());
                 return;
             } catch (Exception e) {
-                System.out.println(Thread.currentThread().getName() + "获取分布式锁失败：" + e);
+                log.debug(Thread.currentThread().getName() + "获取分布式锁失败：" + e);
                 //TODO 获取分布式锁失败，重试
                 if (initCause == null) {
                     initCause = e;
@@ -75,7 +79,7 @@ public class DBDistributeMutex<T> implements DistributeMutex<T> {
             // 等待1秒再重试
             try {
                 Thread.sleep(1000L);
-                System.out.println(Thread.currentThread().getName() + "获取分布式锁失败，进行重试，重试次数为：" + count);
+                log.debug(Thread.currentThread().getName() + "获取分布式锁失败，进行重试，重试次数为：" + count);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 break;
@@ -87,7 +91,7 @@ public class DBDistributeMutex<T> implements DistributeMutex<T> {
     @Override
     public void release() {
         platformTransactionManager.commit(status.get());
-        System.out.println(Thread.currentThread().getName() + "释放分布式锁" + status.get().toString());
+        log.debug(Thread.currentThread().getName() + "释放分布式锁" + status.get().toString());
         status.remove();
     }
 
