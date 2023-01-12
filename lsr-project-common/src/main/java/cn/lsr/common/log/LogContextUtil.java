@@ -1,11 +1,11 @@
-package cn.lsr.boot.core.log;
+package cn.lsr.common.log;
 
 import org.apache.logging.log4j.ThreadContext;
 
 /**
  * @Description: 日志上下文工具类
  * @Author: lsr
- * @Date 2022年08月15日 15:02
+ * @Date 2022年08E15日 15:02
  */
 public class LogContextUtil {
     /**

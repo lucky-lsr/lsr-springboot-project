@@ -3,10 +3,10 @@ package cn.lsr.boot.core.listener;
 import cn.lsr.boot.core.constant.ListenerOrder;
 import cn.lsr.boot.core.event.ApplicationEventPublishType;
 import cn.lsr.boot.core.event.ApplicationGlobalEvent;
-import cn.lsr.boot.core.log.LogUtil;
-import cn.lsr.boot.core.log.LogContextUtil;
+import cn.lsr.common.log.LogContextUtil;
+import cn.lsr.common.log.LogUtil;
 import cn.lsr.boot.core.util.VersionUtil;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
 import org.springframework.boot.ConfigurableBootstrapContext;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.SpringApplicationRunListener;
@@ -43,7 +43,6 @@ public class ApplicationGlobalListener implements SpringApplicationRunListener, 
     @Override
     public void starting(ConfigurableBootstrapContext bootstrapContext) {
         try{
-
             log.info("****************** starting ******************");
         }catch ( Exception e){
             throw new RuntimeException("Service Startup Failure", e);

@@ -1,0 +1,2 @@
+cn.lsr.boot.core.spi.TestServer=\
+  cn.lsr.boot.core.spi.TestServerImpl,cn.lsr.boot.core.spi.TestServerImpl1,cn.lsr.boot.core.spi.TestServerDefaultImpl

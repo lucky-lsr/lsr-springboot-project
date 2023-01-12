@@ -5,6 +5,7 @@ import cn.lsr.discovery.api.ServiceInstanceService;
 import cn.lsr.discovery.api.entity.ServiceInstance;
 import cn.lsr.discovery.core.mapper.ServiceInstanceMapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,7 @@ import java.util.Set;
  * @Date 2022年08月06日 21:56
  */
 @Service
+@MapperScan(basePackages = "cn.lsr.discovery.core.mapper")
 public class ServiceInstanceServiceImpl implements ServiceInstanceService {
 
     @Autowired

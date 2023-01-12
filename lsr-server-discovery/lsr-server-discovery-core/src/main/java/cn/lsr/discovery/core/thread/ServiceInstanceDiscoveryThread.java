@@ -1,8 +1,8 @@
 package cn.lsr.discovery.core.thread;
 
-import cn.lsr.boot.core.log.LogContextUtil;
-import cn.lsr.boot.core.log.LogUtil;
-import org.apache.logging.log4j.Logger;
+import cn.lsr.common.log.LogContextUtil;
+import cn.lsr.common.log.LogUtil;
+import org.slf4j.Logger;
 
 
 /**
